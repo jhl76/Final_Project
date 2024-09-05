@@ -173,6 +173,7 @@
 				    <input type="tel" id="posterTel" name="posterTel" class="form-control" maxlength="30" required="required" placeholder="휴대폰 번호 입력" />
 				    <span id="telError" class="text-danger" style="display: none;">잘못된 전화번호 형식입니다.</span>
 				</div>
+				<!-- ddd -->
 				
 				<div class="form-group">
 				    <label for="posterEmail1">이메일 주소 <sup style="color: red;">※</sup></label>
