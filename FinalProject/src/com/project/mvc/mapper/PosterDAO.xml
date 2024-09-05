@@ -9,5 +9,28 @@
 		FROM POSTER_INFO
 		WHERE LOGIN_ID = #{posterId}
 	</select>
-
+	
+	<select id="PostingList" resultType="com.project.mvc.JobPostingStatusDTO">
+		SELECT P.TITLE AS title
+			 , P.CLOSING_TIME AS closingTime
+			 , P.WORK_START_TIME AS workStartTime
+			 , P.WORK_END_TIME AS workEndTime
+			 , L.NAME AS locationName
+			 , AV.COUNT AS count
+			 , P.HEADCOUNT AS headcount
+			 , OS.STATE AS openStatus
+			 , P.HOURLY_WAGE AS hourlyWage
+			 , PO.COMPANY AS companyName
+			 , PT.TITLE AS preName
+			 , PT.DIFFICULTY AS preDifficulty
+			 , PT.TIME AS preTime
+		FROM POSTING P, POSTER_VIEW PO, APPLICATE_VIEW AV, LOCATION L, OPEN_STATUS OS, PRE_TRAINING PT
+		WHERE P.ID = PO.POSTING_ID
+		AND P.ID = AV.POSTING_ID
+		AND P.LOCATION_ID = L.ID
+		AND P.PUBLIC_STATUS_ID = OS.ID
+		AND P.PRE_TRAINING_ID = PT.ID
+		AND PO.POSTER_LOGIN_ID = #{loginId}
+	</select>
+	
 </mapper>
