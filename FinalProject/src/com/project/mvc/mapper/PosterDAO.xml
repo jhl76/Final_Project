@@ -7,30 +7,86 @@
 	<select id="search" resultType="Integer">
 		SELECT COUNT(*) AS COUNT
 		FROM POSTER_INFO
-		WHERE LOGIN_ID = #{posterId}
+		WHERE LOGIN_ID = #{loginId}
 	</select>
 	
 	<select id="PostingList" resultType="com.project.mvc.JobPostingStatusDTO">
 		SELECT P.TITLE AS title
-			 , P.CLOSING_TIME AS closingTime
-			 , P.WORK_START_TIME AS workStartTime
-			 , P.WORK_END_TIME AS workEndTime
-			 , L.NAME AS locationName
-			 , AV.COUNT AS count
-			 , P.HEADCOUNT AS headcount
-			 , OS.STATE AS openStatus
-			 , P.HOURLY_WAGE AS hourlyWage
-			 , PO.COMPANY AS companyName
-			 , PT.TITLE AS preName
-			 , PT.DIFFICULTY AS preDifficulty
-			 , PT.TIME AS preTime
-		FROM POSTING P, POSTER_VIEW PO, APPLICATE_VIEW AV, LOCATION L, OPEN_STATUS OS, PRE_TRAINING PT
+		     , P.CLOSING_TIME AS closingTime
+		     , P.WORK_START_TIME AS workStartTime
+		     , P.WORK_END_TIME AS workEndTime
+		     , L.NAME AS locationName
+		     , AV.COUNT AS count
+		     , P.HEADCOUNT AS headcount
+		     , OS.STATE AS openStatus
+		     , P.HOURLY_WAGE AS hourlyWage
+		     , PO.COMPANY AS companyName
+		     , P.WORK_CONTENT AS workContent
+		     , C.NAME AS categoryName
+		     , P.ID AS postingId
+		FROM POSTING P, POSTER_VIEW PO, APPLICATE_VIEW AV, LOCATION L, OPEN_STATUS OS, CATEGORY C
 		WHERE P.ID = PO.POSTING_ID
 		AND P.ID = AV.POSTING_ID
 		AND P.LOCATION_ID = L.ID
 		AND P.PUBLIC_STATUS_ID = OS.ID
-		AND P.PRE_TRAINING_ID = PT.ID
+		AND P.CATEGORY_ID = C.ID
 		AND PO.POSTER_LOGIN_ID = #{loginId}
 	</select>
+	
+	<select id="posterMypage" resultType="com.project.mvc.PosterDTO">
+		SELECT PI.ID AS piId
+     		 , PCI.ID AS pciId
+     		 , C.ID AS cId
+		     , PI.LOGIN_ID AS loginId
+		     , PI.LOGIN_PW AS posterPwd
+		     , PI.NAME AS posterName
+		     , PI.TEL AS posterTel
+		     , PI.EMAIL AS posterEmail
+		     , C.NAME AS posterCompanyName
+		     , C.LOCATION AS posterCompanyLocation
+		     , PCI.BUSINESS_ID AS posterBusinessId
+		     , PI.SSN_FRONT AS posterSsn
+		FROM POSTER_INFO PI, POSTER_COMPANY_INFO PCI, COMPANY C
+		WHERE PI.ID = PCI.P_INFO_ID
+		  AND C.ID = PCI.C_ID
+		  AND PI.LOGIN_ID = #{loginId}
+	</select>
+	
+	<update id="posterMyPageUpdate">
+		UPDATE POSTER_INFO
+		SET LOGIN_ID = #{loginId}
+      	  , LOGIN_PW = #{posterPwd}
+      	  , NAME = #{posterName}
+       	  , TEL = #{posterTel}
+      	  , EMAIL = #{posterEmail}
+      	  , SSN_FRONT = #{posterSsn}
+		WHERE ID = #{piId}
+	</update>
+	
+	<select id="posterPosting" resultType="com.project.mvc.JobPostingStatusDTO">
+		SELECT TITLE AS title
+			 , COMPANY_NAME AS companyName
+			 , LOCATION_NAME AS locationName
+			 , CATEGORY_NAME AS categoryName
+			 , HOURLY_WAGE AS hourlyWage
+		     , WORK_START_TIME AS workStartTime
+		     , WORK_END_TIME AS workEndTime
+		     , POSTER_ID AS posterId
+		FROM POSTER_POSTING_VIEW
+		WHERE POSTER_ID = #{pId}
+	</select>
+	
+	<update id="updateCompany">
+	    UPDATE COMPANY
+	    SET NAME = #{posterCompanyName}
+	      , LOCATION = #{posterCompanyLocation}
+	    WHERE ID = #{cId}
+	</update>
+
+	<update id="updatePosterCompanyInfo">
+	    UPDATE POSTER_COMPANY_INFO
+	    SET BUSINESS_ID = #{posterBusinessId}
+	    WHERE ID = #{pciId}
+	</update>
 	
 </mapper>

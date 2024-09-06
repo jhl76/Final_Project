@@ -2,6 +2,8 @@ package com.project.mvc;
 
 public class JobPostingStatusDTO
 {
+	private String posterId;		// 구인자 번호
+	private String postingId; 		// 공고 아이디
 	private String title;         	// 공고 제목
 	private String closingTime;   	// 공고 마감 시간
 	private String workStartTime; 	// 근무 시작 시간
@@ -12,10 +14,26 @@ public class JobPostingStatusDTO
 	private String openStatus;    	// 공고 상태
 	private int hourlyWage;			// 시급
 	private String companyName;		// 회사이름
-	private String preName;			// 사전 교육명
-	private String preDifficulty;	// 사전 교육 난이도
-	private String preTime;			// 사전 교육 시간
+	private String workContent;		// 공고 내용
+	private String categoryName;	// 분야이름
 	
+	
+	public String getPosterId()
+	{
+		return posterId;
+	}
+	public void setPosterId(String posterId)
+	{
+		this.posterId = posterId;
+	}
+	public String getPostingId()
+	{
+		return postingId;
+	}
+	public void setPostingId(String postingId)
+	{
+		this.postingId = postingId;
+	}
 	public String getTitle()
 	{
 		return title;
@@ -96,29 +114,21 @@ public class JobPostingStatusDTO
 	{
 		this.companyName = companyName;
 	}
-	public String getPreName()
+	public String getWorkContent()
 	{
-		return preName;
+		return workContent;
 	}
-	public void setPreName(String preName)
+	public void setWorkContent(String workContent)
 	{
-		this.preName = preName;
+		this.workContent = workContent;
 	}
-	public String getPreDifficulty()
+	public String getCategoryName()
 	{
-		return preDifficulty;
+		return categoryName;
 	}
-	public void setPreDifficulty(String preDifficulty)
+	public void setCategoryName(String categoryName)
 	{
-		this.preDifficulty = preDifficulty;
-	}
-	public String getPreTime()
-	{
-		return preTime;
-	}
-	public void setPreTime(String preTime)
-	{
-		this.preTime = preTime;
+		this.categoryName = categoryName;
 	}
 	
 	

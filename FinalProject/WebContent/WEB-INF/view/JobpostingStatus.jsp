@@ -23,14 +23,14 @@
 
 <div class="container-fluid">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="mainpage.action">
             <img src="images/alba.jpg" class="img-fluid" style="width: 10%; display: inline-block; vertical-align: middle;" alt="CHODANGIALBA"/>
             <h1 class="d-inline-block align-middle ms-2">CHODANGIALBA</h1>
         </a>
         <div class="navbar-collapse">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="postermypage.action?loginId=${loginId }&pId=${pId}">
                         <img src="images/my.png" style="width: 20px; height: 20px;" alt="MY PAGE"/> MY PAGE
                     </a>
                 </li>
@@ -38,10 +38,10 @@
                     <a class="nav-link active" href="#">공고 현황</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">공고 작성</a>
+                    <a class="nav-link" href="postinginsertform.action">공고 작성</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">스크랩</a>
+                    <a class="nav-link" href="posterbookmark.action">구직자 즐겨찾기</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">평가리스트</a>
@@ -77,7 +77,6 @@
 	my-3은 중간 크기의 상하 여백을 설정합니다.
 	my-5는 최대 크기의 상하 여백을 설정합니다.
 -->
-<!-- 커밋좀하자시발 -->
 
 <!-- 공고 목록 -->
 <div class="container my-4">
@@ -123,14 +122,12 @@
 	</div>
     
     <div class="accordion">
-    
 	    <div class="accordion-item">
+    	<c:forEach var="dto" items="${list }">
 	        
 	        <h2 class="accordion-header">
-	            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-	                <c:forEach var="dto" items="${list }">
+	            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne${dto.postingId }" aria-expanded="true" aria-controls="collapseOne">
 	                    ${dto.title }
-	                </c:forEach>
 	            </button>
 	            <div class="form-control">
 	                <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal">수정</button>
@@ -139,9 +136,8 @@
 	            </div>
 	        </h2>
 	        
-	        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+	        <div id="collapseOne${dto.postingId }" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
 	            <div class="accordion-body">
-	                <c:forEach var="dto" items="${list }">
 	                    <div class="form-control">
 	                        <span class="text-black">공고 상태</span>
 	                        <span class="badge bg-secondary">${dto.openStatus }</span>
@@ -158,15 +154,28 @@
 	                        <span class="text-black">공고 마감시간</span>
 	                        <span class="badge bg-secondary">${dto.closingTime }</span>
 	                    </div>
+	                    
+	                    <div class="form-control">
+	                        <span class="text-black">분야명</span>
+	                        <span class="badge bg-secondary">${dto.categoryName}</span>
+	                    </div>
 	
 	                    <div class="form-control">
 	                        <span class="text-black">시급</span>
 	                        <span class="badge bg-secondary"><fmt:formatNumber type="currency" value="${dto.hourlyWage }" /></span>
 	                    </div>
+	                    
+	                    <div class="form-control">
+	                        <span class="text-black">근무 내용</span>
+	                        <span class="badge bg-secondary">${dto.workContent }</span>
+	                    </div>
+	                    
+	                    
 	                    <div class="form-control">
 	                        <span class="text-black">회사/업체명</span>
 	                        <span class="badge bg-secondary">${dto.companyName }</span>
 	                    </div>
+	                    
 	                    <div class="form-control">
 	                        <span class="text-black">근무지 위치</span>
 	                        <span class="badge bg-secondary">${dto.locationName }</span>
@@ -174,23 +183,6 @@
 	                    <div class="form-control">
 	                        <span class="text-black">근무 시간</span>
 	                        <span class="badge bg-secondary">${dto.workStartTime} ~ ${dto.workEndTime }</span>
-	                    </div>
-	                    <div class="form-control">
-	                        <span class="text-black">사전 교육</span>
-	                        <ul>
-	                            <li>
-	                                <span class="text-warning">사전 교육 명</span>
-	                                <span class="badge bg-secondary">${dto.preName }</span>
-	                            </li>
-	                            <li>
-	                                <span class="text-warning">사전 교육 난이도</span>
-	                                <span class="badge bg-secondary">${dto.preDifficulty }</span>
-	                            </li>
-	                            <li>
-	                                <span class="text-warning">사전 교육 시간</span>
-	                                <span class="badge bg-secondary">${dto.preTime }</span>
-	                            </li>
-	                        </ul>
 	                    </div>
 	                    
 	                    <div class="form-control">
@@ -202,10 +194,10 @@
 		                        <li><span class="text-success">김정현</span> - <a href="#" style="text-decoration: none;">지원서 상세보기</a></li>
 		                    </ul>
 	                    </div>
-	                </c:forEach>
 	            </div>
 	        </div>
-	    </div>
+        </c:forEach>
+    </div>
 </div>
 
     
